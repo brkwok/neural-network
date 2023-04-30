@@ -32,8 +32,26 @@ class NeuralNetwork:
 
         self.activation_function = activation_function
 
-    def train():
-        pass
+    def train(self, inputs, train_data):
+        init_inputs = np.array(inputs, ndmin=2).T
+        target_vals = np.array(train_data, ndmin=2).T
+
+        hidden_inputs = np.dot(self.wih, init_inputs)
+        hidden_outputs = self.activation_function(hidden_inputs)
+
+        output_inputs = np.dot(self.who, hidden_outputs)
+        output_outputs = self.activation_function(output_inputs)
+
+        # backpropagating errors
+        # output layer error, for simplicity: target - actual
+        output_errors = target_vals - output_outputs
+        # hidden layer error, errors are dependent on the weights
+        hidden_errors = np.dot(self.who.T, output_errors)
+
+        # updating weights based on errors
+        self.who += self.lr * np.dot((output_errors * output_outputs * (1.0 - output_outputs)), np.transpose(hidden_outputs))
+        self.wih += self.lr * np.dot((hidden_errors * hidden_outputs * (1.0 - hidden_outputs)), np.transpose(init_inputs))
+        
 
     def query(self, inputs):
         # inital inputs, convert it into 2d matrix
@@ -49,9 +67,11 @@ class NeuralNetwork:
 
         return output_outputs
 
+
 # activation function
 def sigmoid(z):
     return 1.0 / (1.0 + np.exp(-z))
+
 
 # testing
 # inodes = 3
