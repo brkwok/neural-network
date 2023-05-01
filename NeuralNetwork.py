@@ -1,19 +1,22 @@
 import numpy as np
 
+# activation function
+sigmoid = lambda z : 1.0 / (1.0 + np.exp(-z))
+
 # Neural Network class def
 class NeuralNetwork:
     def __init__(
         self,
-        inputNodes,
-        hiddenNodes,
-        outputNodes,
-        learningRate,
-        activation_function,
+        input_nodes,
+        hidden_nodes,
+        output_nodes,
+        learningRate = 0.1,
+        activation_function = sigmoid,
     ):
         # nodes for the neural network
-        self.inodes = inputNodes
-        self.hnodes = hiddenNodes
-        self.onodes = outputNodes
+        self.inodes = input_nodes
+        self.hnodes = hidden_nodes
+        self.onodes = output_nodes
 
         # learning rate
         self.lr = learningRate
@@ -34,7 +37,7 @@ class NeuralNetwork:
 
     def train(self, inputs, train_data):
         init_inputs = np.array(inputs, ndmin=2).T
-        target_vals = np.array(train_data, ndmin=2).T
+        target_outputs = np.array(train_data, ndmin=2).T
 
         hidden_inputs = np.dot(self.wih, init_inputs)
         hidden_outputs = self.activation_function(hidden_inputs)
@@ -44,7 +47,7 @@ class NeuralNetwork:
 
         # backpropagating errors
         # output layer error, for simplicity: target - actual
-        output_errors = target_vals - output_outputs
+        output_errors = target_outputs - output_outputs
         # hidden layer error, errors are dependent on the weights
         hidden_errors = np.dot(self.who.T, output_errors)
 
@@ -52,7 +55,7 @@ class NeuralNetwork:
         self.who += self.lr * np.dot((output_errors * output_outputs * (1.0 - output_outputs)), np.transpose(hidden_outputs))
         self.wih += self.lr * np.dot((hidden_errors * hidden_outputs * (1.0 - hidden_outputs)), np.transpose(init_inputs))
         
-
+    
     def query(self, inputs):
         # inital inputs, convert it into 2d matrix
         init_inputs = np.array(inputs, ndmin=2).T
@@ -66,22 +69,3 @@ class NeuralNetwork:
         output_outputs = self.activation_function(output_inputs)
 
         return output_outputs
-
-
-# activation function
-def sigmoid(z):
-    return 1.0 / (1.0 + np.exp(-z))
-
-
-# testing
-# inodes = 3
-# hnodes = 3
-# onodes = 3
-
-# lr = 0.1
-
-# neural_network = NeuralNetwork(inodes, hnodes, onodes, lr, sigmoid)
-
-# output = neural_network.query([1.0, -0.5, 1.5])
-
-# print(output)
