@@ -1,0 +1,21 @@
+{
+	"dependencies": {
+		"tailwindcss": "^3.3.2",
+		"webpack": "^5.82.1",
+		"webpack-cli": "^5.1.1"
+	},
+	"name": "neural-network",
+	"version": "1.0.0",
+	"description": "neural network from scratch",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \\\"Error: no test specified\\\" && exit 1",
+		"build": "webpack --watch --mode=development"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/brkwok/neural-network.git"
+	},
+	"author": "brkwok <brkwok@gmail.com>",
+	"license": "ISC"
+}
