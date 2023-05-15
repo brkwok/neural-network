@@ -10,13 +10,17 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \\\"Error: no test specified\\\" && exit 1",
-		"build": "webpack --watch --mode=development", 
-    "build:css": "npx tailwindcss -i ./assets/stylesheet/input.css -o ./dist/output.css --watch"
+		"build": "webpack --watch --mode=development",
+		"build:css": "npx tailwindcss -i ./assets/stylesheet/input.css -o ./dist/output.css --watch",
+    "dev": "http-server"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/brkwok/neural-network.git"
 	},
 	"author": "brkwok <brkwok@gmail.com>",
-	"license": "ISC"
+	"license": "ISC",
+	"devDependencies": {
+		"http-server": "^14.1.1"
+	}
 }
