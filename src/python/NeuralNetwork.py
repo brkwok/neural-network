@@ -69,3 +69,4 @@ class NeuralNetwork:
         output_outputs = self.activation_function(output_inputs)
 
         return output_outputs
+
