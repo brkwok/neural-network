@@ -5,7 +5,7 @@ const clearButton = document.getElementById("clear");
 const guessButton = document.getElementById("guess");
 const ctx = canvas.getContext("2d");
 
-ctx.lineWidth = 5;
+ctx.lineWidth = 25;
 ctx.lineCap = "round";
 ctx.strokeStyle = "#000000";
 

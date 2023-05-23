@@ -22,7 +22,7 @@ export class NeuralNetwork {
 					this.who = reshaped;
 				});
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 
 		try {
@@ -33,7 +33,9 @@ export class NeuralNetwork {
 					const reshaped = new NumJs(wih).reshape(hnodes, inodes);
 					this.wih = reshaped;
 				});
-		} catch (error) {}
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	_parseCSV(data) {
@@ -51,8 +53,6 @@ export class NeuralNetwork {
 		const outputOutputs = new NumJs(this.actFunc(outputInputs.data));
 
 		const flattened = outputOutputs.data.flat();
-
-		console.log(flattened);
 
 		let maxIdx = 0;
 		let max = 0;
