@@ -1,4 +1,5 @@
 import { sigmoid } from "../utils/activationFunctions";
+import NumJs from "../utils/numJs";
 
 export class NeuralNetwork {
 	constructor(inodes, hnodes, onodes, lr, actFunc) {
@@ -8,15 +9,17 @@ export class NeuralNetwork {
 		this.lr = lr;
 		this.actFunc = actFunc || sigmoid;
 
-		this._initWeights();
+		this._initWeights(this.inodes, this.hnodes, this.onodes);
 	}
 
-	async _initWeights() {
+	_initWeights(inodes, hnodes, onodes) {
 		try {
 			fetch("weights/who.csv")
 				.then((res) => res.text())
 				.then((data) => {
-					console.log(data);
+					const who = this._parseCSV(data);
+					const reshaped = new NumJs(who).reshape(onodes, hnodes);
+					this.who = reshaped;
 				});
 		} catch (error) {
 			console.log(error);
@@ -26,10 +29,31 @@ export class NeuralNetwork {
 			fetch("weights/wih.csv")
 				.then((res) => res.text())
 				.then((data) => {
-					console.log(data);
+					const wih = this._parseCSV(data);
+					const reshaped = new NumJs(wih).reshape(hnodes, inodes);
+					this.wih = reshaped;
 				});
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
+	}
+
+	_parseCSV(data) {
+		const split = data.split(",");
+		return split.map((num) => {
+			return parseFloat(num);
+		});
+	}
+
+	query(inputs) {
+		const initInputs = new NumJs(inputs, 2).transpose();
+
+		const hiddenInputs = this.wih.dot(initInputs);
+
+		const hiddenOutputs = new NumJs(this.actFunc(hiddenInputs.data));
+
+		const outputInputs = this.who.dot(hiddenOutputs);
+
+		const outputOutputs = new NumJs(this.actFunc(outputInputs.data));
+
+		console.log(outputOutputs);
 	}
 }

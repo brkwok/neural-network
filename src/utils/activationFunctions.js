@@ -5,10 +5,12 @@ const sig = (z) => {
 export const sigmoid = (z) => {
 	let res;
 	if (Array.isArray(z)) {
-		res = new Array(z.length);
+		res = Array.from({length: z.length}, () => Array.from({length: z[0].length}, () => 0));
 
 		for (let i = 0; i < z.length; i++) {
-			res[i] = sig(z);
+			for (let j = 0; j < z[i].length; j++) {
+				res[i][j] = sig(z[i][j]);
+			}
 		}
 	} else {
 		res = sig(z);
