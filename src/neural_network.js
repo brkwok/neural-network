@@ -5,68 +5,108 @@ const clearButton = document.getElementById("clear");
 const guessButton = document.getElementById("guess");
 const ctx = canvas.getContext("2d");
 
+ctx.lineWidth = 5;
+ctx.lineCap = "round";
+ctx.strokeStyle = "#000000";
+
 const NN = new NeuralNetwork(28 * 28, 100, 10, 0.1);
 
 let isDrawing = false;
-let lastX = 0;
-let lastY = 0;
-const pixelSize = 15;
-const canvasSize = canvas.width / pixelSize;
-
-const cells = new Array(canvasSize ** 2).fill(0.01);
 
 canvas.addEventListener("mousedown", startDrawing);
 canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("mouseup", stopDrawing);
-canvas.addEventListener("mouseout", stopDrawing);
+canvas.addEventListener("mouseleave", stopDrawing);
+
+canvas.addEventListener("touchstart", startDrawing);
+canvas.addEventListener("touchmove", draw);
+canvas.addEventListener("touchend", stopDrawing);
+
 clearButton.addEventListener("click", clearCanvas);
 guessButton.addEventListener("click", predictOutput);
 
 function startDrawing(e) {
 	isDrawing = true;
-	[lastX, lastY] = [e.offsetX, e.offsetY];
-	trackCell(lastX, lastY);
+	const { x, y } = getCursorPosition(e);
+	ctx.beginPath();
+	ctx.moveTo(x, y);
 }
 
 function draw(e) {
 	if (!isDrawing) return;
-
-	[lastX, lastY] = [e.offsetX, e.offsetY];
-	trackCell(lastX, lastY);
+	const { x, y } = getCursorPosition(e);
+	ctx.lineTo(x, y);
+	ctx.stroke();
 }
 
-function stopDrawing(_) {
+function stopDrawing() {
 	isDrawing = false;
 }
 
-function trackCell(x, y) {
-	const cellX = ~~(x / pixelSize) * 28;
-	const cellY = ~~(y / pixelSize) % 28;
+function getCursorPosition(e) {
+	let x, y;
 
-	cells[cellX + cellY] = 1.0;
-	fillRect();
-}
-
-function fillRect() {
-	for (let i = 0; i < cells.length; i++) {
-		if (cells[i] > 0.1) {
-			const cellX = ~~(i / 28);
-			const cellY = ~~(i % 28);
-
-			ctx.fillRect(cellX * 15, cellY * 15, pixelSize, pixelSize);
-		}
+	if (e.touches && e.touches.length === 1) {
+		const touch = e.touches[0];
+		x = touch.clientX;
+		y = touch.clientY;
+	} else {
+		x = e.clientX;
+		y = e.clientY;
 	}
+
+	const canvasRect = canvas.getBoundingClientRect();
+	const offsetX = x - canvasRect.left;
+	const offsetY = y - canvasRect.top;
+
+	return { x: offsetX, y: offsetY };
 }
 
 function clearCanvas() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	for (let i = 0; i < cells.length; i++) {
-		cells[i] = 0;
-	}
+}
+
+function resizeImageData(imageData, newWidth, newHeight) {
+	const canvas = document.createElement("canvas");
+	const context = canvas.getContext("2d");
+	const tempCanvas = document.createElement("canvas");
+	const tempContext = tempCanvas.getContext("2d");
+
+	canvas.width = imageData.width;
+	canvas.height = imageData.height;
+	context.putImageData(imageData, 0, 0);
+
+	// const canvas2 = document.getElementById("canvas2");
+	// canvas2.append(canvas);
+
+	tempCanvas.width = newWidth;
+	tempCanvas.height = newHeight;
+	tempContext.drawImage(canvas, 0, 0, newWidth, newHeight);
+
+	return tempContext.getImageData(0, 0, newWidth, newHeight).data;
+}
+
+function U8IntToArr(uIntArr) {
+	const regularArray = new Array(28 * 28).fill(0.01);
+
+	uIntArr.forEach((pixel, i) => {
+		if (pixel !== 0) {
+      const index = Math.floor(i / 4);
+      const normalized = pixel / 255;
+      regularArray[index] = normalized;
+		}
+	});
+
+	return regularArray;
 }
 
 function predictOutput() {
-  console.table(cells)
-  NN.query(cells);
+	const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
+	const resizedData = resizeImageData(imageData, 28, 28);
+
+	const converted = U8IntToArr(resizedData);
+
+
+	NN.query(converted);
 }

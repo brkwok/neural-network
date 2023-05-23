@@ -45,15 +45,26 @@ export class NeuralNetwork {
 
 	query(inputs) {
 		const initInputs = new NumJs(inputs, 2).transpose();
-
 		const hiddenInputs = this.wih.dot(initInputs);
-
 		const hiddenOutputs = new NumJs(this.actFunc(hiddenInputs.data));
-
 		const outputInputs = this.who.dot(hiddenOutputs);
-
 		const outputOutputs = new NumJs(this.actFunc(outputInputs.data));
 
-		console.log(outputOutputs);
+		const flattened = outputOutputs.data.flat();
+
+		console.log(flattened);
+
+		let maxIdx = 0;
+		let max = 0;
+
+		flattened.forEach((el, i) => {
+			if (el > max) {
+				max = el;
+				maxIdx = i;
+			}
+		});
+
+		const answer = document.getElementById("answer");
+		answer.innerText = `The output is: ${maxIdx}`;
 	}
 }
