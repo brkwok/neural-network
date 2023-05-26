@@ -10,16 +10,20 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \\\"Error: no test specified\\\" && exit 1",
-		"build": "webpack-dev-server --config webpack.config.js --mode=development --watch",
-		"build:css": "npx tailwindcss -i ./assets/stylesheet/input.css -o ./dist/output.css"
+		"build": "webpack --mode=development",
+		"build:watch": "webpack-dev-server --config webpack.config.js --mode=development --watch",
+		"build:css": "npx tailwindcss -i ./assets/stylesheet/input.css -o ./dist/output.css",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d dist"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/brkwok/neural-network.git"
 	},
 	"author": "brkwok <brkwok@gmail.com>",
-	"license": "ISC",
+	"license": "MIT",
 	"devDependencies": {
+		"gh-pages": "^5.0.0",
 		"html-webpack-plugin": "^5.5.1",
 		"webpack-dev-server": "^4.15.0"
 	}

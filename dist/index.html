@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Neural Network</title>
+		<link rel="stylesheet" href="output.css" />
+		<link rel="stylesheet" href="app.css" />
+	<script defer src="bundle.js"></script></head>
+	<body>
+		<div class="h-screen w-screen flex flex-col items-center justify-center">
+			<canvas
+				id="canvas"
+				width="420"
+				height="420"
+				class="border border-black m-2"
+			></canvas>
+			<div class="flex items-center justify-center space-x-2">
+				<button
+					id="clear"
+					class="border border-black rounded-md py-1 px-2 text-md"
+				>
+					Clear
+				</button>
+				<button
+					id="guess"
+					class="border border-black rounded-md py-1 px-2 text-md"
+				>
+					Guess
+				</button>
+			</div>
+			<span id="answer"> 
+
+			</span>
+			<!-- <div id="canvas2"></div> -->
+		</div>
+		<script src="bundle.js" />
+	</body>
+</html>
