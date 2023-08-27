@@ -7,22 +7,12 @@ A JavaScript library for creating and using neural networks.
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Installation](#installation)
 - [Usage](#usage)
 - [API Reference](#api-reference)
 
 ## Introduction
 
 This library provides a simple implementation of a neural network in JavaScript. It allows you to create a neural network with customizable input, hidden, and output nodes, as well as a choice of activation function and learning rate. The library is designed to load pre-trained weights from CSV files to enable quick usage.
-
-## Installation
-
-To use this library in your project, follow these steps:
-
-1. Clone the repository: <br>
-   `git clone https://github.com/brkwok/neural-network-js.git`
-2. Navigate to the project directory: `cd neural-network-js`
-3. Include the `NeuralNetwork.js` file in your HTML or JavaScript project.
 
 ## Usage
 
@@ -91,10 +81,13 @@ The `NumJs` class provides basic array manipulation functionalities, particularl
 You can use the `NumJs` class to perform various matrix operations. Here's an example of how to create a `NumJs` instance and perform basic operations:
 
 ```javascript
-import NumJs from './src/utils/NumJs';
+import NumJs from "./src/utils/NumJs";
 
 // Create a NumJs instance
-const data = [[1, 2, 3], [4, 5, 6]];
+const data = [
+	[1, 2, 3],
+	[4, 5, 6],
+];
 const matrix = new NumJs(data);
 
 // Perform matrix operations
@@ -103,7 +96,11 @@ const transposed = matrix.transpose(); // Transpose the matrix
 const reshaped = matrix.reshape(3, 2); // Reshape the matrix
 
 // Perform matrix multiplication
-const otherData = [[7, 8], [9, 10], [11, 12]];
+const otherData = [
+	[7, 8],
+	[9, 10],
+	[11, 12],
+];
 const otherMatrix = new NumJs(otherData);
 const resultMatmul = matrix.matmul(otherMatrix);
 
@@ -125,7 +122,7 @@ This script sets up the canvas and handles user interactions to draw and predict
 
 - Predicting the Output: The "Guess" button triggers the neural network to predict the output based on the drawn image. The drawn image is preprocessed, resized, and normalized before being passed to the neural network's `query` method.
 
-### Example Code
+#### Example Code
 
 Here's an example of how to use the functionalities provided by the `canvas_init.js` script in your HTML:
 
