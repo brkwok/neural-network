@@ -82,11 +82,11 @@ neuralNet.query(inputs);
 
 - `inputs` (array): Input values for the neural network
 
-## `NumJs` Class
+### `NumJs` Class
 
 The `NumJs` class provides basic array manipulation functionalities, particularly for matrix operations. This class is used within the `NeuralNetwork` class for handling matrix reshaping, transposition, matrix multiplication, and dot product operations.
 
-### Usage
+#### Usage
 
 You can use the `NumJs` class to perform various matrix operations. Here's an example of how to create a `NumJs` instance and perform basic operations:
 
@@ -111,11 +111,11 @@ const resultMatmul = matrix.matmul(otherMatrix);
 const resultDot = matrix.dot(otherMatrix);
 ```
 
-## `neural_network.js` File
+### `neural_network.js` File
 
 The `neural_network.js` file contains the initialization code for the HTML canvas element used in your project. It also includes event listeners for drawing on the canvas, clearing the canvas, and predicting the output using the neural network.
 
-### Usage
+#### Usage
 
 This script sets up the canvas and handles user interactions to draw and predict using the neural network. Here's an overview of the key functionalities:
 
