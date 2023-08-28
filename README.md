@@ -1,7 +1,5 @@
 # Neural Network JavaScript Library
 
-A JavaScript library for creating and using neural networks.
-
 - [Live Demo](https://brkwok.github.io/neural-network/)
 
 ## Table of Contents
